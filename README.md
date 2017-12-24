@@ -6,5 +6,3 @@ LEARNING TO USE PROMISES.
 
 
 
-# Debugging
-Some Bugs are present ,soon will be removed.
