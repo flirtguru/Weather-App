@@ -7,13 +7,15 @@ const bps=require('body-parser');
 
 
 var e =express();
+var weather,fulladdress;
+e.use(express.static("public"));
 e.set('view engine','ejs')
 e.use(bps.urlencoded({ extended: true }));
 
 e.get('/',(req,res)=>{
 
-res.render('home.ejs');
-document.getElementById('after_get').innerHTML="<%= weather %>";
+res.render('home.ejs',{weather:"",fulladdress:""});
+
 }
  )
 
@@ -31,6 +33,7 @@ var latitude=response.data.results[0].geometry.location.lat;
 
 var longitude=response.data.results[0].geometry.location.lng;
   console.log(`Full address:${formattedAddress}`);
+  fulladdress=formattedAddress;
 
 
   var weatherUrl=`https://api.darksky.net/forecast/e3539fd9e59fc470e7c2b3b14a575820/${latitude},${longitude}`;
@@ -42,7 +45,7 @@ var longitude=response.data.results[0].geometry.location.lng;
 
 
 
-  res.render('home.ejs',{weather:`Temperature is: ${(5/9)*(temp-32)} centigrade`});
+  res.render('home.ejs',{weather:`Temperature is: ${(5/9)*(temp-32)} centigrade `,fulladdress:`Full address:${fulladdress}`});
 
 
 
@@ -50,7 +53,7 @@ var longitude=response.data.results[0].geometry.location.lng;
 {
   if(e.code="ENOTFOUND")
   {
-    res.render('home.ejs',{weather:`unable to find servers`});
+    res.render('home.ejs',{weather:`unable to find servers`,fulladdress:`Full address:${fulladdress}`});
 
   }
 });
